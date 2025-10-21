@@ -14,7 +14,8 @@ class PartyController extends Controller
     public function index()
     {
         $parties = Party::orderBy('id', 'desc')->get();
-        return view('admin.parties.index', compact('parties'));
+        $canAddMore = Party::count() < 2; // Check if can add more parties
+        return view('admin.parties.index', compact('parties', 'canAddMore'));
     }
 
     /**
@@ -22,6 +23,12 @@ class PartyController extends Controller
      */
     public function create()
     {
+        // Check if already have 2 parties
+        if (Party::count() >= 2) {
+            return redirect()->route('parties.index')
+                ->with('error', 'Maximum of 2 parties allowed. Please delete an existing party first.');
+        }
+        
         return view('admin.parties.create');
     }
 
@@ -30,6 +37,12 @@ class PartyController extends Controller
      */
     public function store(Request $request)
     {
+        // Check party limit
+        if (Party::count() >= 2) {
+            return redirect()->route('parties.index')
+                ->with('error', 'Maximum of 2 parties allowed. Please delete an existing party first.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255|unique:parties,name',
             'slogan' => 'nullable|string|max:255',
