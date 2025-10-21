@@ -11,7 +11,7 @@ class Candidate extends Model
 
     protected $fillable = [
         'name',
-        'party',
+        'party_id',     // Fixed: changed from 'party' to 'party_id'
         'position_id',
         'photo',
         'description',
