@@ -11,8 +11,8 @@ class Vote extends Model
 
     protected $fillable = [
         'user_id',
-        'position_id',
         'candidate_id',
+        'position_id',
     ];
 
     public function user()
@@ -20,13 +20,13 @@ class Vote extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function position()
-    {
-        return $this->belongsTo(Position::class);
-    }
-
     public function candidate()
     {
         return $this->belongsTo(Candidate::class);
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
     }
 }
