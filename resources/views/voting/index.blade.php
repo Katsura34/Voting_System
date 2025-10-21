@@ -19,8 +19,8 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        @foreach($position->candidates as $candidate)
-                            <div class="col-md-6 col-lg-4 mb-3">
+                        @foreach($position->candidates->take(2) as $candidate)
+                            <div class="col-md-6 col-lg-6 mb-3"> {{-- force 2 candidates max per position --}}
                                 <div class="card h-100 border-0 shadow-sm">
                                     <div class="card-body text-center">
                                         @if($candidate->photo)
@@ -46,6 +46,9 @@
                                 </div>
                             </div>
                         @endforeach
+                        @if($position->candidates->count() > 2)
+                            <div class="text-muted small">Only 2 candidates are shown per position.</div>
+                        @endif
                     </div>
                 </div>
             </div>
