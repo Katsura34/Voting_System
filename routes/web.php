@@ -6,6 +6,7 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\PartyController;
+use App\Http\Controllers\VotingController; // ✅ added
 
 // 🏠 Landing route — redirect based on login status
 Route::get('/', function () {
@@ -32,9 +33,9 @@ Route::get('/dashboard', function () {
 
 // 🗳 Student Voting Page
 Route::middleware(['auth'])->group(function () {
-    Route::get('/voting', function () {
-        return view('voting.index');
-    })->name('voting.index');
+    // ✅ replaced static view with controller-based voting routes
+    Route::get('/voting', [VotingController::class, 'index'])->name('voting.index');
+    Route::post('/voting', [VotingController::class, 'store'])->name('voting.store');
 });
 
 // 👨‍💼 Admin Dashboard + Admin Modules
