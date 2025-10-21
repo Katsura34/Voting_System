@@ -36,7 +36,15 @@
             </div>
         </div>
     </div>
-   
+
+    {{-- Votes Bar Chart --}}
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white fw-semibold">Votes by Candidate</div>
+        <div class="card-body">
+            <canvas id="votesBarChart" height="120"></canvas>
+        </div>
+    </div>
+
     <div class="row mb-4 g-4">
         <div class="col-12 col-lg-4">
             <a href="{{ route('positions.index') }}" class="card bg-primary text-white text-center shadow-sm p-4 text-decoration-none h-100 card-action-hover">
@@ -65,4 +73,31 @@
     </div>
    
 </div>
+
+{{-- Chart.js --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('votesBarChart').getContext('2d');
+    const chartLabels = @json($chartLabels ?? []);
+    const chartData = @json($chartData ?? []);
+    const chartColors = @json($chartColors ?? []);
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                label: 'Votes',
+                data: chartData,
+                backgroundColor: chartColors.length ? chartColors : '#3b82f6',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true, precision: 0 }
+            }
+        }
+    });
+</script>
 @endsection
